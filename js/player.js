@@ -1,30 +1,38 @@
 class Player {
-    constructor(ctx, width, height, background) {
+    constructor(ctx, gameWidth, gameHeight, background, platform, enemiesShoot) {
         this.ctx = ctx
-        this.gameWidth = width
-        this.gameHeight = height
+        this.gameWidth = gameWidth
+        this.gameHeight = gameHeight
         // Tamaño del player
-        this.width = 50
+        this.width = 55
         this.height = 65
+        // Vidas del jugador
+        this.life = 100
+        this.canJump = true
         // Imagen del player
         this.image = new Image()
         this.image.src = "img/playerOcioso/cc_player_idle.png"
         // Posicion del player
         this.posX = 10
-        this.posY = this.gameHeight * 0.95 - this.height - 45
+        this.posY = this.gameHeight * 0.95 - this.height - 20
         this.posY0 = this.posY //Para usarla como suelo.
+
         // Velocidad del player
-        this.velY = 10
-        this.velX = 1
+        this.velY = 12
+        this.velX = .5
         // Propiedades de la imagen
         this.directions = {
             top: false,
             right: false,
-            left: false
+            left: false,
+            shoot: false
         }
         this.image.frames = 5
         this.image.framesIndex = 0
         this.background = background
+        this.platform = platform
+        this.bullets = []
+        this.enemiesShoot = enemiesShoot
         this.setListeners()
     }
     draw(framesCounter) {
@@ -38,63 +46,114 @@ class Player {
             this.posY,
             this.width,
             this.height)
+
         this.animate(framesCounter)
+
+        this.bullets.forEach(bullet => bullet.draw())
     }
     animate(framesCounter) {
-        if (framesCounter % 15 == 0) {
-            this.image.framesIndex++; //Cambiamos el frame de la imagen cada 5 fps.
-            if (this.image.framesIndex > 4) {
-                this.image.framesIndex = 0;
-            }
+
+        if (framesCounter % 10 == 0) {
+            this.image.framesIndex++;
+            this.image.framesIndex > 4 ? this.image.framesIndex = 0 : null
         }
     }
     move() {
-        let gravity = 0.5;
+
+        let gravity = 0.5
+
         if (this.posY < this.posY0) {
-            this.posY += this.velY;
-            this.velY += gravity;
+            this.posY += this.velY
+            this.velY += gravity
         } else {
-            this.posY = this.posY0;
+            this.canJump = true
+            this.posY = this.posY0
             this.velY = 0;
         }
 
         if (this.directions.right) {
+
             this.posX += 1
             this.background.move(this.posX, this.velX, this.gameWidth)
+            this.platform.forEach(elm => elm.move())
+            this.enemiesShoot.move()
         }
-        if (this.directions.top) {
 
-            this.posY -= 20
-            this.velY -= 2
+        if (this.directions.top && this.canJump) {
+            this.canJump = false
+            this.posY -= 5
+            this.velY -= 12
         }
-        if (this.directions.left) {
-            this.posX -= 1
-        }
+
+        this.directions.left ? this.posX -= 3 : null
+
+        this.bullets.forEach(bullet => bullet.move())
+
     }
+
     setListeners() {
         document.onkeydown = e => {
+
             if (e.keyCode === 39) {
                 this.directions.right = true
+                this.image.src = "img/playerRunning/runningCreate.png"
+                this.image.frames = 12
                 this.move()
+            }
 
-            } else if (e.keyCode === 38) {
+            if (e.keyCode === 38) {
                 this.directions.top = true
+                this.image.src = "img/playerJumping/cc_player_jump-strip.png"
+                this.image.frames = 13
                 this.move()
+            }
 
-            } else if (e.keyCode === 37) {
+            if (e.keyCode === 37) {
                 this.directions.left = true
                 this.move()
             }
+
         }
         document.onkeyup = e => {
+
             if (e.keyCode === 39) {
+
                 this.directions.right = false
-            } else if (e.keyCode === 38) {
-                this.directions.top = false
-            } else if (e.keyCode === 37) {
-                this.directions.left = false
+                this.image.src = "img/playerOcioso/cc_player_idle.png"
+                this.image.frames = 5
             }
+
+            if (e.keyCode === 38) {
+                this.directions.top = false
+                this.image.src = "img/playerOcioso/cc_player_idle.png"
+                this.image.frames = 5
+            }
+
+            if (e.keyCode === 37) {
+
+                this.directions.left = false
+                this.image.src = "img/playerOcioso/cc_player_idle.png"
+                this.image.frames = 5
+            }
+
+            e.keyCode === 32 ? this.shoot() : null
         }
+    }
+
+    shoot() {
+        this.bullets.push(new Bullet(this.ctx, this.posX, this.posY, this.width, this.height))
+        this.image.src = "img/playerShooting/cc_player_pistol_shooting.png"
+        this.image.frames = 11
+    }
+
+    clearBullets() {
+        this.bullets = this.bullets.filter(bull => bull.posX <= this.posX + 450);
+    }
+
+    damage() {
+        this.lives -= 1
+        this.lives === 0 ? die() : null
 
     }
+
 }

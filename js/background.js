@@ -4,22 +4,21 @@ class Background {
         this.width = w
         this.height = h
         this.image = new Image()
-        this.image.src = "img/background/backgroundmodified.png"
+        this.image.src = "img/background/background1.png"
+        this.image2 = new Image()
+        this.image2.src = "img/background/background2.png"
         this.posX = 0
         this.posY = 0
 
-        this.velX = 2
+        this.velX = 3.5
     }
 
     draw() {
-
         this.ctx.drawImage(this.image, this.posX, this.posY, this.width, this.height)
+        this.ctx.drawImage(this.image2, this.posX + this.width, this.posY, this.width, this.height)
     }
 
-    move(playerPosX, playerVelX, gameWidth) {
-        console.log(playerPosX, playerVelX, gameWidth)
-        playerPosX >= gameWidth / 2 - 490 ? this.posX -= (playerVelX * 5) : 0;
-        console.log("Move")
-
+    move(playerPosX, gameWidth) {
+        playerPosX >= gameWidth / 2 - 500 ? this.posX -= this.velX : 0;
     }
 }
