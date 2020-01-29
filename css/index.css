@@ -2,3 +2,65 @@
     padding: 0;
     margin: 0;
 }
+
+#start {
+    background-image: url("../img/background/fondoToChulo.png");
+    background-size: cover;
+    width: 1366px;
+    height: 637px;
+}
+
+#startDemo {
+    font-size: 50px;
+    color: white;
+    background-color: #a82323;
+    padding: 10px 40px;
+    border-radius: 20px;
+    margin-left: 510px;
+    margin-top: 350px;
+    text-transform: uppercase;
+    animation-name: colores;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+}
+
+a {
+    color: rgb(255, 255, 255);
+    display: block;
+    text-align: center;
+    text-align: center;
+    margin-top: 164px;
+    font-size: 2em;
+    background-color: rgba(211, 211, 211, 0.329);
+    text-decoration: none;
+
+}
+
+@keyframes colores {
+
+    /* from{background:#93b3c2;} /*From{} y to{} establecen solo 2 procesos; principio y fin.
+	to{background:#21295c ;} */
+    0% {
+        background: #a82323;
+    }
+
+    25% {
+        background: #1c7293;
+        transform: scale(1.1, 1.1);
+    }
+
+    50% {
+        background: #065a82;
+        transform: scale(1.2, 1.2)
+    }
+
+    75% {
+        background: #1b3b6f;
+        transform: scale(1.1, 1.1)
+    }
+
+    100% {
+        background: #a82323;
+        transform: scale(1, 1)
+    }
+}

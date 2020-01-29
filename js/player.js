@@ -5,8 +5,8 @@ class Player {
         this.gameWidth = gameWidth
         this.gameHeight = gameHeight
         // Tamaño del player
-        this.width = 50
-        this.height = 60
+        this.width = 60
+        this.height = 70
         // Vidas del jugador
         this.life = 100
         this.canJump = true
@@ -151,6 +151,10 @@ class Player {
     }
 
     shoot() {
+        this.pium = document.createElement("audio")
+        this.pium.src = "music/pium.wav"
+        this.pium.volume = 0.9
+        this.pium.play()
         this.bullets.push(new Bullet(this.ctx, this.posX, this.posY, this.width, this.height, 9))
         this.image.src = "img/playerShooting/cc_player_pistol_shooting.png"
         this.image.frames = 11

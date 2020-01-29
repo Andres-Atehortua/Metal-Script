@@ -9,6 +9,7 @@ const Game = {
     width: undefined,
     height: undefined,
     fps: 60,
+    soundTrack: new Audio("music/longTallSally.wav"),
     enemiesArray: [],
     enemyStaticArray: [],
     enemiesShoot: [],
@@ -28,6 +29,7 @@ const Game = {
         this.canvas.height = this.height;
         Scoreboard.init(this.ctx)
         this.start()
+        this.soundTrack.play()
     },
 
     start() {
@@ -56,7 +58,7 @@ const Game = {
             }
             this.drawScore()
             if (this.collisionGirl()) {
-                this.gameOver()
+                this.win()
             }
             this.clearBullets()
             this.collisionPlayerBullets()
@@ -215,11 +217,23 @@ const Game = {
     clearBullets() {
         this.bullet = this.bullet.filter(bull => bull.posX >= 10);
     },
-    gameOver() {
+    win() {
         clearInterval(this.interval)
         this.ctx.font = "150px vcr osd mono"
         this.ctx.fillStyle = "#FFD700"
         this.ctx.fillText(("¡HAS RESCATADO"), 70, 250)
-        this.ctx.fillText(("A LA NIÑA!"), 250, 400)
+        this.ctx.fillText(("A LA PRINCESA!"), 100, 400)
+        this.winSound = document.createElement("audio")
+        this.winSound.src = "music/winPrinces.wav"
+        this.winSound.volume = 0.4
+        this.winSound.play()
+    },
+    // soundTrack() {
+    //     this.soundTrack.volume = 0.5
+    //     this.soundTrack.loop = true
+    //     this.soundTrack.play()
+    // },
+    stopSoundTrack() {
+        this.soundTrack.pause()
     }
 }
