@@ -1,11 +1,12 @@
 class Player {
-    constructor(ctx, gameWidth, gameHeight, background, platform, enemiesShoot) {
+    constructor(ctx, gameWidth, gameHeight, background, platform, enemiesShoot, enemyStatic, boss, girl) {
+
         this.ctx = ctx
         this.gameWidth = gameWidth
         this.gameHeight = gameHeight
         // Tamaño del player
-        this.width = 55
-        this.height = 65
+        this.width = 50
+        this.height = 60
         // Vidas del jugador
         this.life = 100
         this.canJump = true
@@ -29,10 +30,15 @@ class Player {
         }
         this.image.frames = 5
         this.image.framesIndex = 0
+        // Enlazar todos los elementos necesarios para el movimiento
         this.background = background
         this.platform = platform
         this.bullets = []
         this.enemiesShoot = enemiesShoot
+        this.enemyStatic = enemyStatic
+        this.boss = boss
+        this.girl = girl
+        // Activar listeners
         this.setListeners()
     }
     draw(framesCounter) {
@@ -49,18 +55,20 @@ class Player {
 
         this.animate(framesCounter)
 
+
         this.bullets.forEach(bullet => bullet.draw())
     }
-    animate(framesCounter) {
 
+    animate(framesCounter) {
         if (framesCounter % 10 == 0) {
             this.image.framesIndex++;
-            this.image.framesIndex > 4 ? this.image.framesIndex = 0 : null
+            this.image.framesIndex > 4.5 ? this.image.framesIndex = 0 : null
         }
     }
+
     move() {
 
-        let gravity = 0.5
+        let gravity = 0.4
 
         if (this.posY < this.posY0) {
             this.posY += this.velY
@@ -76,7 +84,10 @@ class Player {
             this.posX += 1
             this.background.move(this.posX, this.velX, this.gameWidth)
             this.platform.forEach(elm => elm.move())
-            this.enemiesShoot.move()
+            this.enemiesShoot.forEach(enemy => enemy.move())
+            this.enemyStatic.forEach(enemy => enemy.move())
+            this.boss.forEach(boss => boss.move())
+            this.girl.forEach(girl => girl.move())
         }
 
         if (this.directions.top && this.canJump) {
@@ -88,7 +99,6 @@ class Player {
         this.directions.left ? this.posX -= 3 : null
 
         this.bullets.forEach(bullet => bullet.move())
-
     }
 
     setListeners() {
@@ -141,7 +151,7 @@ class Player {
     }
 
     shoot() {
-        this.bullets.push(new Bullet(this.ctx, this.posX, this.posY, this.width, this.height))
+        this.bullets.push(new Bullet(this.ctx, this.posX, this.posY, this.width, this.height, 9))
         this.image.src = "img/playerShooting/cc_player_pistol_shooting.png"
         this.image.frames = 11
     }
@@ -151,9 +161,22 @@ class Player {
     }
 
     damage() {
-        this.lives -= 1
-        this.lives === 0 ? die() : null
+        this.life -= 1
+    }
 
+    damageBullets() {
+        this.life -= 25
+        console.log("He pasado por aqui jajajajaja")
+        if (this.life <= 0)
+            return true
+        else
+            return false
+
+    }
+
+    die() {
+        this.image.src = "img/playerDiying/cc_player_dying_strip.png"
+        this.image.frames = 8
     }
 
 }

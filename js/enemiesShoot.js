@@ -1,8 +1,8 @@
 class EnemyShoot {
     constructor(ctx, posX, posY) {
         this.ctx = ctx
-        this.width = 85
-        this.height = 95
+        this.width = 80
+        this.height = 85
         this.posX = posX
         this.posY = posY
         this.life = 100
@@ -10,7 +10,10 @@ class EnemyShoot {
         this.image.src = "img/enemyleft/soldiershoot.png"
         this.image.frames = 10
         this.image.framesIndex = 0
+        this.bullets = []
+        this.counter = 0
     }
+
     draw(framesCounter) {
 
         this.ctx.drawImage(
@@ -26,14 +29,26 @@ class EnemyShoot {
         );
         this.animate(framesCounter)
     }
+
     animate(framesCounter) {
         if (framesCounter % 10 == 0) {
             this.image.framesIndex++;
             this.image.framesIndex > 7 ? this.image.framesIndex = 0 : null
         }
     }
+
     move() {
         this.posX -= 3.5
     }
+
+    damage() {
+        this.life -= 25
+
+        if (this.life <= 0)
+            return true
+        else
+            return false
+    }
+
 
 }

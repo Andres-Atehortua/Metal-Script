@@ -1,19 +1,18 @@
-class Enemy {
+class Girl {
+
     constructor(ctx, posX, posY) {
         this.ctx = ctx
-        this.width = 65
-        this.height = 75
         this.posX = posX
         this.posY = posY
-        this.life = 100
+        this.width = 60
+        this.height = 75
         this.image = new Image()
-        this.image.src = "img/enemyleft/runningleftenemy.png"
-        this.image.frames = 8
+        this.image.src = "img/girl.png"
+        this.image.frames = 4
         this.image.framesIndex = 0
-
     }
-    draw(framesCounter) {
 
+    draw(framesCounter) {
         this.ctx.drawImage(
             this.image,
             this.image.framesIndex * Math.floor(this.image.width / this.image.frames),
@@ -27,23 +26,15 @@ class Enemy {
         );
         this.animate(framesCounter)
     }
+
     animate(framesCounter) {
         if (framesCounter % 10 == 0) {
             this.image.framesIndex++;
-            this.image.framesIndex > 7 ? this.image.framesIndex = 0 : null
+            this.image.framesIndex > 5 ? this.image.framesIndex = 0 : null
         }
     }
+
     move() {
-        this.posX -= 4
+        this.posX -= 3.5
     }
-    damage() {
-        this.life -= 25
-
-        if (this.life <= 0)
-            return true
-        else
-            return false
-    }
-
-
 }

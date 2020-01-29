@@ -1,19 +1,19 @@
-class Enemy {
-    constructor(ctx, posX, posY) {
+class Boss {
+
+    constructor(ctx, width, height) {
         this.ctx = ctx
-        this.width = 65
-        this.height = 75
-        this.posX = posX
-        this.posY = posY
-        this.life = 100
+        this.width = width
+        this.height = height
+        this.posX = 4100
+        this.posY = 470
+        this.life = 400
         this.image = new Image()
-        this.image.src = "img/enemyleft/runningleftenemy.png"
-        this.image.frames = 8
+        this.image.src = "img/cc_boss/boss_shoot.png"
+        this.image.frames = 5
         this.image.framesIndex = 0
-
     }
-    draw(framesCounter) {
 
+    draw(framesCounter) {
         this.ctx.drawImage(
             this.image,
             this.image.framesIndex * Math.floor(this.image.width / this.image.frames),
@@ -27,23 +27,24 @@ class Enemy {
         );
         this.animate(framesCounter)
     }
+
     animate(framesCounter) {
-        if (framesCounter % 10 == 0) {
+        if (framesCounter % 5 == 0) {
             this.image.framesIndex++;
-            this.image.framesIndex > 7 ? this.image.framesIndex = 0 : null
+            this.image.framesIndex > 4 ? this.image.framesIndex = 0 : null
         }
     }
+
     move() {
-        this.posX -= 4
+        this.posX -= 3.5
     }
+
     damage() {
         this.life -= 25
-
         if (this.life <= 0)
             return true
         else
             return false
     }
-
 
 }
