@@ -1,6 +1,6 @@
 class Player {
     constructor(ctx, gameWidth, gameHeight, background, platform, enemiesShoot, enemyStatic, boss, girl) {
-
+        this.end = undefined
         this.ctx = ctx
         this.gameWidth = gameWidth
         this.gameHeight = gameHeight
@@ -28,8 +28,11 @@ class Player {
             left: false,
             shoot: false
         }
+        // Imagenes
         this.image.frames = 5
         this.image.framesIndex = 0
+        this.numberOfFrames = 0
+        this.end = undefined
         // Enlazar todos los elementos necesarios para el movimiento
         this.background = background
         this.platform = platform
@@ -61,8 +64,9 @@ class Player {
 
     animate(framesCounter) {
         if (framesCounter % 10 == 0) {
+            this.numberOfFrames = 4
             this.image.framesIndex++;
-            this.image.framesIndex > 4.5 ? this.image.framesIndex = 0 : null
+            this.image.framesIndex > this.numberOfFrames ? this.image.framesIndex = 0 : null
         }
     }
 
@@ -107,6 +111,7 @@ class Player {
             if (e.keyCode === 39) {
                 this.directions.right = true
                 this.image.src = "img/playerRunning/runningCreate.png"
+                this.numberOfFrames = 13
                 this.image.frames = 12
                 this.move()
             }
@@ -114,6 +119,7 @@ class Player {
             if (e.keyCode === 38) {
                 this.directions.top = true
                 this.image.src = "img/playerJumping/cc_player_jump-strip.png"
+                this.numberOfFrames = 14
                 this.image.frames = 13
                 this.move()
             }
@@ -130,12 +136,14 @@ class Player {
 
                 this.directions.right = false
                 this.image.src = "img/playerOcioso/cc_player_idle.png"
+                this.numberOfFrames = 6
                 this.image.frames = 5
             }
 
             if (e.keyCode === 38) {
                 this.directions.top = false
                 this.image.src = "img/playerOcioso/cc_player_idle.png"
+                this.numberOfFrames = 6
                 this.image.frames = 5
             }
 
@@ -143,6 +151,7 @@ class Player {
 
                 this.directions.left = false
                 this.image.src = "img/playerOcioso/cc_player_idle.png"
+                this.numberOfFrames = 6
                 this.image.frames = 5
             }
 
@@ -157,6 +166,7 @@ class Player {
         this.pium.play()
         this.bullets.push(new Bullet(this.ctx, this.posX, this.posY, this.width, this.height, 9))
         this.image.src = "img/playerShooting/cc_player_pistol_shooting.png"
+        this.numberOfFrames = 12
         this.image.frames = 11
     }
 
@@ -170,16 +180,18 @@ class Player {
 
     damageBullets() {
         this.life -= 25
-        console.log("He pasado por aqui jajajajaja")
         if (this.life <= 0)
             return true
         else
             return false
-
+        //SONIDO DE DAÑO POR BALA
     }
 
     die() {
+        setTimeout(this.restarGame, 1000 * 5)
+        console.log(this.end)
         this.image.src = "img/playerDiying/cc_player_dying_strip.png"
+        this.numberOfFrames = 9
         this.image.frames = 8
     }
 

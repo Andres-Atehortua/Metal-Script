@@ -16,6 +16,7 @@ class Background {
     draw() {
         this.ctx.drawImage(this.image, this.posX, this.posY, this.width, this.height)
         this.ctx.drawImage(this.image2, this.posX + this.width, this.posY, this.width, this.height)
+        this.ctx.drawImage(this.image, this.posX + this.width * 2, this.posY, this.width, this.height)
     }
 
     move(playerPosX, gameWidth) {

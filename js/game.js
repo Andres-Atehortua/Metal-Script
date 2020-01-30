@@ -18,6 +18,7 @@ const Game = {
     bullet: [],
     framesCounter: 0,
     score: 0,
+    bossCanShoot: false,
     interval: undefined,
 
     init() {
@@ -29,6 +30,7 @@ const Game = {
         this.canvas.height = this.height;
         Scoreboard.init(this.ctx)
         this.start()
+        this.soundTrack.volume = 0.5
         this.soundTrack.play()
     },
 
@@ -38,7 +40,13 @@ const Game = {
             this.framesCounter++
             this.framesCounter > 800 ? this.framesCounter = 0 : null
             this.clear()
-            this.framesCounter % 150 === 0 ? this.enemiesShoot.forEach(enemy => this.bullet.push(new Bullet(this.ctx, enemy.posX, enemy.posY, this.width, this.height, -9))) : null
+            this.framesCounter % 150 === 0 ? this.enemiesShoot.forEach(enemy => this.bullet.push(new Bullet(this.ctx, enemy.posX, enemy.posY, this.width, this.height, -9, "img/background/balaEnemigos.png", 40, 20))) : null
+            if (this.player.posX >= 600) {
+                this.bossCanShoot = true
+            }
+            if (this.bossCanShoot) {
+                this.framesCounter % 100 === 0 ? this.boss.forEach(boss => this.bullet.push(new Bullet(this.ctx, boss.posX, boss.posY, this.width, this.height, -5, "img/background/balaBoss.png", 45, 15))) : null
+            }
             this.drawAll()
             this.moveAll()
             this.player.clearBullets()
@@ -53,7 +61,7 @@ const Game = {
                 this.player.damage()
                 if (this.player.life <= 0) {
                     this.player.die()
-                    setTimeout(clearInterval(this.interval))
+                    this.lose()
                 }
             }
             this.drawScore()
@@ -82,7 +90,8 @@ const Game = {
             new Platform(this.ctx, 3000, 160, 100, 10),
             new Platform(this.ctx, 3400, 360, 100, 10),
             new Platform(this.ctx, 3400, 260, 100, 10),
-            new Platform(this.ctx, 3400, 160, 100, 10)
+            new Platform(this.ctx, 3400, 160, 100, 10),
+            new Platform(this.ctx, 3800, 420, 80, 10)
         ]
         this.enemyStaticArray = [
             new EnemyStatic(this.ctx, 520, 335, "img/enemyleft/staticright.png"),
@@ -162,7 +171,7 @@ const Game = {
         return this.girl.some(girl => {
             return (
                 this.player.posX + this.player.width >= girl.posX + 35 &&
-                this.player.posY + this.player.height >= girl.posY &&
+                this.player.posY + this.player.height >= girl.posY + 35 &&
                 this.player.posY <= girl.posY + girl.height &&
                 this.player.posX <= girl.posX + girl.width
             )
@@ -174,7 +183,7 @@ const Game = {
         enemiesInArrays.forEach((enemy, idE) => {
             this.player.bullets.forEach((bullet, idB) => {
                 if (enemy.posX + enemy.width >= bullet.posX &&
-                    enemy.posY + enemy.height - 45 <= bullet.posY &&
+                    enemy.posY + enemy.height - 80 <= bullet.posY &&
                     enemy.posY + enemy.height >= bullet.posY &&
                     enemy.posX <= bullet.posX) {
                     if (enemy.damage()) {
@@ -190,11 +199,12 @@ const Game = {
     collisionPlayerBullets() {
         this.bullet.forEach((bullet, idx) => {
             if (this.player.posX + this.player.width >= bullet.posX &&
-                this.player.posY + this.player.height - 45 <= bullet.posY &&
+                this.player.posY + this.player.height - 70 <= bullet.posY &&
                 this.player.posY + this.player.height >= bullet.posY &&
                 this.player.posX <= bullet.posX) {
                 if (this.player.damageBullets()) {
                     this.player.die()
+                    this.lose()
                 }
                 this.bullet.splice(idx, 1)
             }
@@ -218,22 +228,46 @@ const Game = {
         this.bullet = this.bullet.filter(bull => bull.posX >= 10);
     },
     win() {
-        clearInterval(this.interval)
-        this.ctx.font = "150px vcr osd mono"
+        this.restartInterval()
+        this.stopSoundTrack()
+        this.ctx.font = "150px kaushan script" //preguntar a german
         this.ctx.fillStyle = "#FFD700"
-        this.ctx.fillText(("¡HAS RESCATADO"), 70, 250)
-        this.ctx.fillText(("A LA PRINCESA!"), 100, 400)
+        this.ctx.fillText(("¡HAS RESCATADO"), 70, 240)
+        this.ctx.fillText(("A LA PRINCESA!"), 100, 390)
+        this.ctx.font = "45px kaushan script"
+        this.ctx.fillStyle = "red"
+        this.ctx.fillText((`Tu puntuación ha sido de ${this.score} asesinatos a sangre fria :(`), 180, 450)
+        this.ctx.fillStyle = "#FFD700"
+        this.ctx.font = "30px kaushan script"
+        this.ctx.fillText(("El juego se reiniciará en 3 segundos..."), 10, 590)
         this.winSound = document.createElement("audio")
         this.winSound.src = "music/winPrinces.wav"
-        this.winSound.volume = 0.4
+        this.winSound.volume = 0.9
         this.winSound.play()
+        setTimeout(this.restartGame, 6000)
     },
-    // soundTrack() {
-    //     this.soundTrack.volume = 0.5
-    //     this.soundTrack.loop = true
-    //     this.soundTrack.play()
-    // },
+    lose() {
+        this.stopSoundTrack()
+        this.image = new Image()
+        this.image.src = "img/playerLosing/You-Died.png"
+        this.ctx.drawImage(this.image, 0, 0, this.width, this.height)
+        this.ctx.font = "45px kaushan script"
+        this.fillStyle = "white"
+        this.ctx.fillText(`Eres más malo que el hambre, pero al menos has matado a ${this.score}`, 10, 150)
+        this.ctx.fillText(("El juego se reiniciará en 3 segundos..."), 10, 580)
+
+        setTimeout(this.restartGame, 6000)
+    },
+
     stopSoundTrack() {
         this.soundTrack.pause()
+    },
+
+    restartGame() {
+        window.location.reload(true)
+    },
+
+    restartInterval() {
+        clearInterval(this.interval)
     }
 }

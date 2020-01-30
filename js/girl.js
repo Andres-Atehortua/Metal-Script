@@ -28,7 +28,7 @@ class Girl {
     }
 
     animate(framesCounter) {
-        if (framesCounter % 10 == 0) {
+        if (framesCounter % 10 === 0) {
             this.image.framesIndex++;
             this.image.framesIndex > 5 ? this.image.framesIndex = 0 : null
         }

@@ -3,6 +3,8 @@
     margin: 0;
 }
 
+@import url('https://fonts.googleapis.com/css?family=Zhi+Mang+Xing&display=swap');
+
 #start {
     background-image: url("../img/background/fondoToChulo.png");
     background-size: cover;
@@ -20,9 +22,24 @@
     margin-top: 350px;
     text-transform: uppercase;
     animation-name: colores;
-    animation-duration: 1s;
+    animation-duration: 1.2s;
     animation-iteration-count: infinite;
 }
+
+#footer {
+    text-align: center;
+    font-family: 'Kaushan Script', cursive;
+    background-color: rgb(11, 97, 50);
+    font-size: 1.3em;
+}
+
+p {
+    height: 32px;
+    color: white;
+}
+
+
+
 
 a {
     color: rgb(255, 255, 255);
@@ -38,8 +55,6 @@ a {
 
 @keyframes colores {
 
-    /* from{background:#93b3c2;} /*From{} y to{} establecen solo 2 procesos; principio y fin.
-	to{background:#21295c ;} */
     0% {
         background: #a82323;
     }
@@ -50,7 +65,7 @@ a {
     }
 
     50% {
-        background: #065a82;
+        background: #be3737;
         transform: scale(1.2, 1.2)
     }
 
