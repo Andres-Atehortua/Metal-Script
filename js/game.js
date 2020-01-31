@@ -30,7 +30,7 @@ const Game = {
         this.canvas.height = this.height;
         Scoreboard.init(this.ctx)
         this.start()
-        this.soundTrack.volume = 0.3
+        this.soundTrack.volume = 0.4
         this.soundTrack.play()
     },
 
@@ -190,7 +190,7 @@ const Game = {
                         enemiesInArrays.splice(idE, 1)
                         this.lastScream = document.createElement("audio")
                         this.lastScream.src = "music/gritoMuerte.wav"
-                        this.lastScream.volume = 0.9
+                        this.lastScream.volume = 0.8
                         this.lastScream.play()
                         this.score++
                     }
@@ -246,7 +246,7 @@ const Game = {
         this.ctx.fillText(("El juego se reiniciará en 3 segundos..."), 10, 590)
         this.winSound = document.createElement("audio")
         this.winSound.src = "music/winPrinces.wav"
-        this.winSound.volume = 0.9
+        this.winSound.volume = 1
         this.winSound.play()
         setTimeout(this.restartGame, 8000)
     },
@@ -262,7 +262,7 @@ const Game = {
         }
         this.wastedSound = document.createElement("audio")
         this.wastedSound.src = "music/wasted.wav"
-        this.wastedSound.volume = 0.9
+        this.wastedSound.volume = 1
         this.wastedSound.play()
     },
 

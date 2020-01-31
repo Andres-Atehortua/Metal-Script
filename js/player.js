@@ -151,7 +151,7 @@ class Player {
     shoot() {
         this.pium = document.createElement("audio")
         this.pium.src = "music/pium.wav"
-        this.pium.volume = 0.9
+        this.pium.volume = 0.8
         this.pium.play()
         this.bullets.push(new Bullet(this.ctx, this.posX, this.posY, this.width, this.height, 9))
         this.image.src = "img/playerShooting/cc_player_pistol_shooting.png"
@@ -167,7 +167,7 @@ class Player {
         this.life -= 25
         this.bulletImpact = document.createElement("audio")
         this.bulletImpact.src = "music/meHanDado.wav"
-        this.bulletImpact.volume = 0.9
+        this.bulletImpact.volume = 0.8
         this.bulletImpact.play()
         if (this.life <= 0)
             return true
