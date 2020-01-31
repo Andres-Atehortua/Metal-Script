@@ -3,7 +3,32 @@
     margin: 0;
 }
 
-@import url('https://fonts.googleapis.com/css?family=Zhi+Mang+Xing&display=swap');
+
+a {
+    font-family: "kaushan script";
+    color: rgb(255, 255, 255);
+    display: block;
+    text-align: center;
+    text-align: center;
+
+    font-size: 2em;
+    background-color: rgba(211, 211, 211, 0.479);
+    text-decoration: none;
+}
+
+p {
+    color: white;
+}
+
+img {
+    width: 250px;
+    height: 222.5px;
+    margin: 0 50px;
+}
+
+.arrows {
+    float: right;
+}
 
 #start {
     background-image: url("../img/background/fondoToChulo.png");
@@ -19,7 +44,7 @@
     padding: 10px 40px;
     border-radius: 20px;
     margin-left: 510px;
-    margin-top: 350px;
+    margin-top: 280px;
     text-transform: uppercase;
     animation-name: makeBigger;
     animation-duration: 1.2s;
@@ -27,43 +52,35 @@
     transition: all 0.3;
 }
 
-#startDemo:hover {
-    transform: rotate(180deg);
-}
 
 #footer {
     text-align: center;
     font-family: 'Kaushan Script', cursive;
     background-color: rgb(11, 97, 50);
-    font-size: 1.3em;
-}
-
-
-p {
+    font-size: 1.2em;
     height: 32px;
-    color: white;
 }
 
-
-
-
-
-
-a {
-    color: rgb(255, 255, 255);
-    display: block;
-    text-align: center;
-    text-align: center;
-    margin-top: 164px;
-    font-size: 2em;
-    background-color: rgba(211, 211, 211, 0.329);
-    text-decoration: none;
-
-}
 
 a:hover {
-    background-color: gray;
+    background-color: rgba(128, 128, 128, 0.63);
+    color: blue;
 }
+
+#footer:hover {
+    height: 30px;
+    border: 1px solid black;
+}
+
+#startDemo:hover {
+    transform: rotate(180deg);
+}
+
+p:hover {
+    color: black;
+
+}
+
 
 @keyframes makeBigger {
 

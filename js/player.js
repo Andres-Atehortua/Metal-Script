@@ -4,35 +4,27 @@ class Player {
         this.ctx = ctx
         this.gameWidth = gameWidth
         this.gameHeight = gameHeight
-        // Tamaño del player
         this.width = 60
         this.height = 65
-        // Vidas del jugador
         this.life = 100
         this.canJump = true
-        // Imagen del player
         this.image = new Image()
         this.image.src = "img/playerOcioso/cc_player_idle.png"
-        // Posicion del player
         this.posX = 10
         this.posY = this.gameHeight * 0.95 - this.height - 20
         this.posY0 = this.posY
-        // Velocidad del player
         this.velY = 12
         this.velX = .5
-        // Propiedades de la imagen
         this.directions = {
             top: false,
             right: false,
             left: false,
             shoot: false
         }
-        // Imagenes
         this.image.frames = 5
         this.image.framesIndex = 0
         this.numberOfFrames = 0
         this.end = undefined
-        // Enlazar todos los elementos necesarios para el movimiento
         this.background = background
         this.platform = platform
         this.bullets = []
@@ -40,16 +32,15 @@ class Player {
         this.enemyStatic = enemyStatic
         this.boss = boss
         this.girl = girl
-        // Activar listeners
         this.setListeners()
     }
     draw(framesCounter) {
         this.ctx.drawImage(
             this.image,
-            this.image.framesIndex * Math.floor(this.image.width / this.image.frames), //Punto x donde empieza a recortar
-            0, //Punto y donde empieza a recortar
-            Math.floor(this.image.width / this.image.frames), //Punto x donde termina de recortar
-            this.image.height, //Punto y donde termina de recortar
+            this.image.framesIndex * Math.floor(this.image.width / this.image.frames),
+            0,
+            Math.floor(this.image.width / this.image.frames),
+            this.image.height,
             this.posX,
             this.posY,
             this.width,
@@ -62,7 +53,7 @@ class Player {
     }
 
     animate(framesCounter) {
-        if (framesCounter % 10 == 0) {
+        if (framesCounter % 10 === 0) {
             this.numberOfFrames = 4
             this.image.framesIndex++;
             this.image.framesIndex > this.numberOfFrames ? this.image.framesIndex = 0 : null
@@ -70,7 +61,6 @@ class Player {
     }
 
     move() {
-
         let gravity = 0.4
 
         if (this.posY < this.posY0) {
@@ -169,13 +159,9 @@ class Player {
         this.image.frames = 11
     }
 
-    clearBullets() {
-        this.bullets = this.bullets.filter(bull => bull.posX <= this.posX + 450);
-    }
+    clearBullets = () => this.bullets = this.bullets.filter(bull => bull.posX <= this.posX + 450)
 
-    damage() {
-        this.life -= 1
-    }
+    damage = () => this.life -= 1
 
     damageBullets() {
         this.life -= 25

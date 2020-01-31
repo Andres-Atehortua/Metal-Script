@@ -234,7 +234,7 @@ const Game = {
     win() {
         this.restartInterval()
         this.stopSoundTrack()
-        this.ctx.font = "150px kaushan script" //preguntar a german
+        this.ctx.font = "150px kaushan script"
         this.ctx.fillStyle = "#FFD700"
         this.ctx.fillText(("¡HAS RESCATADO"), 70, 240)
         this.ctx.fillText(("A LA PRINCESA!"), 100, 390)
