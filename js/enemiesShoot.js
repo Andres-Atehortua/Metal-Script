@@ -1,7 +1,7 @@
 class EnemyShoot {
     constructor(ctx, posX, posY) {
         this.ctx = ctx
-        this.width = 80
+        this.width = 85
         this.height = 85
         this.posX = posX
         this.posY = posY

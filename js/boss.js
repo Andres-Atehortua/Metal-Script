@@ -11,6 +11,7 @@ class Boss {
         this.image.src = "img/cc_boss/boss_shoot.png"
         this.image.frames = 5
         this.image.framesIndex = 0
+
     }
 
     draw(framesCounter) {

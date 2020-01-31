@@ -30,7 +30,7 @@ const Game = {
         this.canvas.height = this.height;
         Scoreboard.init(this.ctx)
         this.start()
-        this.soundTrack.volume = 0.5
+        this.soundTrack.volume = 0.3
         this.soundTrack.play()
     },
 
@@ -188,6 +188,10 @@ const Game = {
                     enemy.posX <= bullet.posX) {
                     if (enemy.damage()) {
                         enemiesInArrays.splice(idE, 1)
+                        this.lastScream = document.createElement("audio")
+                        this.lastScream.src = "music/gritoMuerte.wav"
+                        this.lastScream.volume = 0.9
+                        this.lastScream.play()
                         this.score++
                     }
                     this.player.bullets.splice(idB, 1)
@@ -198,8 +202,8 @@ const Game = {
 
     collisionPlayerBullets() {
         this.bullet.forEach((bullet, idx) => {
-            if (this.player.posX + this.player.width >= bullet.posX &&
-                this.player.posY + this.player.height - 70 <= bullet.posY &&
+            if (this.player.posX + this.player.width - 25 >= bullet.posX &&
+                this.player.posY + this.player.height - 75 <= bullet.posY &&
                 this.player.posY + this.player.height >= bullet.posY &&
                 this.player.posX <= bullet.posX) {
                 if (this.player.damageBullets()) {
@@ -244,19 +248,22 @@ const Game = {
         this.winSound.src = "music/winPrinces.wav"
         this.winSound.volume = 0.9
         this.winSound.play()
-        setTimeout(this.restartGame, 6000)
+        setTimeout(this.restartGame, 8000)
     },
     lose() {
         this.stopSoundTrack()
         this.image = new Image()
         this.image.src = "img/playerLosing/You-Died.png"
-        this.ctx.drawImage(this.image, 0, 0, this.width, this.height)
-        this.ctx.font = "45px kaushan script"
-        this.fillStyle = "white"
-        this.ctx.fillText(`Eres más malo que el hambre, pero al menos has matado a ${this.score}`, 10, 150)
-        this.ctx.fillText(("El juego se reiniciará en 3 segundos..."), 10, 580)
-
-        setTimeout(this.restartGame, 6000)
+        this.image.onload = () => {
+            this.ctx.drawImage(this.image, 0, 0, this.width, this.height)
+            this.drawText()
+            setTimeout(this.restartGame, 5000)
+            this.restartInterval()
+        }
+        this.wastedSound = document.createElement("audio")
+        this.wastedSound.src = "music/wasted.wav"
+        this.wastedSound.volume = 0.9
+        this.wastedSound.play()
     },
 
     stopSoundTrack() {
@@ -269,5 +276,11 @@ const Game = {
 
     restartInterval() {
         clearInterval(this.interval)
+    },
+    drawText() {
+        this.ctx.font = "45px kaushan script"
+        this.fillStyle = "white"
+        this.ctx.fillText(`Eres más malo que el hambre, pero al menos has matado a ${this.score} enemigos.`, 10, 150)
+        this.ctx.fillText(("El juego se reiniciará en 3 segundos..."), 10, 580)
     }
 }

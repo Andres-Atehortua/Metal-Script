@@ -21,9 +21,14 @@
     margin-left: 510px;
     margin-top: 350px;
     text-transform: uppercase;
-    animation-name: colores;
+    animation-name: makeBigger;
     animation-duration: 1.2s;
     animation-iteration-count: infinite;
+    transition: all 0.3;
+}
+
+#startDemo:hover {
+    transform: rotate(180deg);
 }
 
 #footer {
@@ -33,10 +38,13 @@
     font-size: 1.3em;
 }
 
+
 p {
     height: 32px;
     color: white;
 }
+
+
 
 
 
@@ -53,24 +61,28 @@ a {
 
 }
 
-@keyframes colores {
+a:hover {
+    background-color: gray;
+}
+
+@keyframes makeBigger {
 
     0% {
         background: #a82323;
     }
 
     25% {
-        background: #1c7293;
+        background: #efb810;
         transform: scale(1.1, 1.1);
     }
 
     50% {
-        background: #be3737;
+        background: #a82323;
         transform: scale(1.2, 1.2)
     }
 
     75% {
-        background: #1b3b6f;
+        background: #efb810;
         transform: scale(1.1, 1.1)
     }
 

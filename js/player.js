@@ -6,7 +6,7 @@ class Player {
         this.gameHeight = gameHeight
         // Tamaño del player
         this.width = 60
-        this.height = 70
+        this.height = 65
         // Vidas del jugador
         this.life = 100
         this.canJump = true
@@ -16,8 +16,7 @@ class Player {
         // Posicion del player
         this.posX = 10
         this.posY = this.gameHeight * 0.95 - this.height - 20
-        this.posY0 = this.posY //Para usarla como suelo.
-
+        this.posY0 = this.posY
         // Velocidad del player
         this.velY = 12
         this.velX = .5
@@ -180,16 +179,19 @@ class Player {
 
     damageBullets() {
         this.life -= 25
+        this.bulletImpact = document.createElement("audio")
+        this.bulletImpact.src = "music/meHanDado.wav"
+        this.bulletImpact.volume = 0.9
+        this.bulletImpact.play()
         if (this.life <= 0)
             return true
         else
             return false
-        //SONIDO DE DAÑO POR BALA
+
     }
 
     die() {
         setTimeout(this.restarGame, 1000 * 5)
-        console.log(this.end)
         this.image.src = "img/playerDiying/cc_player_dying_strip.png"
         this.numberOfFrames = 9
         this.image.frames = 8
